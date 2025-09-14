@@ -12,10 +12,29 @@
 (defpoll battery :interval "5s" "./scripts/battery.sh")
 (defpoll network_speed :interval "1s" "./scripts/network_speed.sh")
 
+(deflisten workspace_str :initial "[]" "./scripts/get_workspaces.py")
+
+(defvar enable_process_name false)
+(defvar enable_workspace_number true)
 
 ;;; -----------------------------
-;;; :: Widgets (with icons)
+;;; :: Widgets
 ;;; -----------------------------
+(defwidget workspaces []
+    (box
+        :class "workspaces" :spacing 16 :orientation "h" :space-evenly false :valign "center"
+        (for workspace in workspace_str
+            (eventbox
+                :cursor "pointer"
+                :onclick "hyprctl dispatch workspace ${workspace}"
+                (box
+                    :spacing 10 :space-evenly false 
+                    :class "${workspace == current_workspace ? 'selected' : 'not-selected'}"
+                    (label
+                        :class "number"
+                        :text "${enable_workspace_number ? '${workspace}' : ''}")))))
+)
+
 (defwidget packages []
   (box :class "metric packages" :orientation "h" :space-evenly false :spacing 5
     (label :class "metric-icon" :text "󰆧")
@@ -81,7 +100,8 @@
 ;;; :: Layout
 ;;; -----------------------------
 (defwidget left_bar []
-  (box :class "left-bar" :halign "start" :orientation "h"
+  (box :class "left-bar" :halign "start" :orientation "h" :spacing 15
+    (workspaces)
     (date_time)
   )
 )

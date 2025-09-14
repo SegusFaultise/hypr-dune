@@ -10,6 +10,7 @@ set -e
 PACKAGES=(
   git
   jq
+  socat
   ttf-jetbrains-mono-nerd
   base-devel
   glib2

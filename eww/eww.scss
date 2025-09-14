@@ -22,7 +22,6 @@ $blue: #7AA2F7;
   padding: 4px 12px;
   margin: 6px;
 
-  // Replaced the single-color border with a multi-color gradient
   border-width: 2px;
   border-style: solid;
   border-image: linear-gradient(to right, $green, $yellow, $red, $blue) 1;
@@ -30,6 +29,17 @@ $blue: #7AA2F7;
 
 .left-bar, .right-bar {
   padding: 2px 8px;
+}
+
+.workspaces {
+  background-color: transparent;
+  padding: 0 10px;
+}
+
+.number {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #eceff4;
 }
 
 .metric {
