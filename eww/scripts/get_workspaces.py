@@ -3,9 +3,17 @@
 import json
 import subprocess
 import socket
+import os
 from collections import deque
 
-SOCKET_PATH = "/run/user/1000/hypr/46174f78b374b6cea669c48880877a8bdcf7802f_1757834802_460050513/.socket2.sock"
+xdg_runtime_dir = os.environ.get("XDG_RUNTIME_DIR")
+hyprland_instance_signature = os.environ.get("HYPRLAND_INSTANCE_SIGNATURE")
+
+if xdg_runtime_dir and hyprland_instance_signature:
+    SOCKET_PATH = f"{xdg_runtime_dir}/hypr/{hyprland_instance_signature}/.socket2.sock"
+else:
+    print("Error: Required Hyprland environment variables are not set.")
+    exit(1)
 
 
 def main():

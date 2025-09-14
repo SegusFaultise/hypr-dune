@@ -14,6 +14,9 @@
 
 (deflisten workspace_str :initial "[]" "./scripts/get_workspaces.py")
 
+;; Gets the ID of the current active workspace using hyprctl and jq
+(deflisten current_workspace :initial 1 "hyprctl activeworkspace -j | jq '.id'")
+
 (defvar enable_process_name false)
 (defvar enable_workspace_number true)
 
@@ -28,7 +31,7 @@
                 :cursor "pointer"
                 :onclick "hyprctl dispatch workspace ${workspace}"
                 (box
-                    :spacing 10 :space-evenly false 
+                    :spacing 10 :space-evenly false
                     :class "${workspace == current_workspace ? 'selected' : 'not-selected'}"
                     (label
                         :class "number"
