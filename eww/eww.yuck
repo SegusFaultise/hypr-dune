@@ -12,13 +12,14 @@
 (defpoll battery :interval "5s" "./scripts/battery.sh")
 (defpoll network_speed :interval "1s" "./scripts/network_speed.sh")
 
+(deflisten git_projects :initial "[]" "./scripts/get_git_projects.py")
 (deflisten workspace_str :initial "[]" "./scripts/get_workspaces.py")
-
-;; Gets the ID of the current active workspace using hyprctl and jq
 (deflisten current_workspace :initial 1 "hyprctl activeworkspace -j | jq '.id'")
 
 (defvar enable_process_name false)
 (defvar enable_workspace_number true)
+
+(defvar show_git_popout false)
 
 ;;; -----------------------------
 ;;; :: Widgets
@@ -44,18 +45,41 @@
     (label :class "metric-value" :text "${packages}")
   )
 )
+
 (defwidget docker []
   (box :class "metric docker" :orientation "h" :space-evenly false :spacing 5
     (label :class "metric-icon" :text "")
     (label :class "metric-value" :text "${docker}")
   )
 )
+
 (defwidget git []
-  (box :class "metric git" :orientation "h" :space-evenly false :spacing 5
-    (label :class "metric-icon" :text "")
-    (label :class "metric-value" :text "${git}")
+  (eventbox
+    :cursor "pointer"
+    :onclick "eww --config ~/.config/hypr/eww/ open git_window"
+    (box :class "metric git" :orientation "h" :space-evenly false :spacing 5
+      (label :class "metric-icon" :text "")
+      (label :class "metric-value" :text "${git}")
+    )
   )
 )
+
+(defwidget git_popout []
+  (box :class "git-popout-window"
+    :orientation "v"
+    :spacing 10
+    (label :class "title" :text "Git Projects")
+    (for project in git_projects
+        (box :class "project-item"
+            :orientation "h"
+            :spacing 5
+            (label :text "󰊢")
+            (label :text "${project.name} - ${project.branch}")
+        )
+    )
+  )
+)
+
 (defwidget ram []
   (box :class "metric ram" :orientation "h" :space-evenly false :spacing 5
     (label :class "metric-icon" :text "")
@@ -98,6 +122,9 @@
   )
 )
 
+;;; -----------------------------
+;;; :: Window
+;;; -----------------------------
 
 ;;; -----------------------------
 ;;; :: Layout
