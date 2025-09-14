@@ -3,7 +3,7 @@
 ;;; -----------------------------
 (defpoll date :interval "1s" "date '+%d %b  %H:%M'")
 (defpoll wifi :interval "5s" "./scripts/wifi.sh")
-(defpoll volume :interval "1s" "./scripts/volume.sh")
+(defpoll volume :interval "0s" "./scripts/volume.sh")
 (defpoll cpu :interval "2s" "./scripts/cpu.sh")
 (defpoll ram :interval "2s" "./scripts/ram.sh")
 (defpoll docker :interval "10s" "./scripts/docker.sh")
@@ -65,10 +65,7 @@
   )
 )
 (defwidget battery []
-  ;; Added a generic battery icon.
-  ;; You may need to adjust your script to only output the value (e.g., "85% ").
   (box :class "metric battery" :orientation "h" :space-evenly false :spacing 5
-    (label :class "metric-icon" :text "")
     (label :class "metric-value" :text "${battery}")
   )
 )
