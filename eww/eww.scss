@@ -1,0 +1,64 @@
+$sandy-ochre: #D49E5E;      // Main background
+$sunlit-dune: #F9CA7A;      // Borders and highlights
+$pale-sky: #A9D5E5;         // Cool-toned status icons (wifi, docker)
+$twilight-indigo: #3D5A80;  // Main text and shadows
+$terracotta-clay: #E07A5F;  // Warm, "attention" icons (volume, packages)
+$sagebrush-green: #A3B18A;  // "OK" status icons (battery)
+$bleached-bone: #FDFCDC;    // High-contrast text (CPU)
+
+// --- General Styles ---
+* {
+  all: unset;
+  font-family: "FiraCode Nerd Font";
+}
+
+.bar {
+  color: white;
+  font-size: 14px;
+  font-weight: bolder;
+  border-top: 2px solid $sunlit-dune;
+  padding: 10px;
+}
+
+.right-bar {
+}
+
+// --- Metric Styles ---
+.metric {
+  margin-left: 10px;
+}
+
+// System Status (Cool Tones & Greens)
+.metric.battery {
+  color: $sagebrush-green;
+}
+
+.metric.wifi {
+  color: $pale-sky;
+}
+
+.metric.docker {
+  color: $pale-sky;
+}
+
+.metric.git {
+  color: $pale-sky;
+}
+
+// Actionable/Variable Status (Warm Tones)
+.metric.volume {
+  color: $terracotta-clay;
+}
+
+.metric.packages {
+  color: $terracotta-clay;
+}
+
+// Hardware Monitors (High Contrast)
+.metric.cpu {
+  color: $bleached-bone;
+}
+
+.metric.ram {
+  color: $sunlit-dune;
+}

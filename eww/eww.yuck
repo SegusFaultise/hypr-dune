@@ -1,0 +1,87 @@
+;;; -----------------------------
+;;; :: Variables
+;;; -----------------------------
+(defpoll date :interval "1s" "date '+%d %b  %H:%M'")
+(defpoll network :interval "5s" "./scripts/network.sh")
+(defpoll volume :interval "1s" "./scripts/volume.sh")
+(defpoll cpu :interval "2s" "./scripts/cpu.sh")
+(defpoll ram :interval "2s" "./scripts/ram.sh")
+(defpoll docker :interval "10s" "./scripts/docker.sh")
+(defpoll git :interval "10s" "./scripts/git.sh")
+(defpoll packages :interval "600s" "./scripts/packages.sh")
+(defpoll battery :interval "5s" "./scripts/battery.sh")
+
+
+;;; -----------------------------
+;;; :: Widgets (with icons)
+;;; -----------------------------
+(defwidget packages []
+  (box :class "metric packages" :halign "end" "󰆧 ${packages}")
+)
+(defwidget docker []
+  (box :class "metric docker" :halign "end" "   ${docker}")
+)
+(defwidget git []
+  (box :class "metric git" :halign "end" "   ${git}")
+)
+(defwidget ram []
+  (box :class "metric ram" :halign "end" "   ${ram}%")
+)
+(defwidget cpu []
+  (box :class "metric cpu" :halign "end" "  ${cpu}%")
+)
+(defwidget wifi []
+  (box :class "metric wifi" :halign "end" "   ${network}")
+)
+(defwidget vol []
+  (box :class "metric volume" :halign "end" "   ${volume}%")
+)
+(defwidget battery []
+  ;; This assumes your script outputs the percentage and charging status.
+  ;; The script itself can be modified to return a full string like " 85%"
+  (box :class "metric battery" :halign "end" "${battery}")
+)
+
+(defwidget date_time []
+  (box :class "date" :halign "end" " ${date}")
+)
+
+
+;;; -----------------------------
+;;; :: Layout
+;;; -----------------------------
+(defwidget center_bar []
+  (box :class "value" :halign "end" :orientation "h"
+    (date_time)
+  )
+)
+(defwidget right_bar []
+  (box :class "right-bar" :halign "end" :orientation "h" :space-evenly false :spacing 10
+    (cpu)
+    (ram)
+    (vol)
+    (wifi)
+    (git)
+    (docker)
+    (packages)
+    (battery)
+  )
+)
+(defwidget bar []
+  (box :orientation "h"
+    (center_bar)
+    (right_bar)
+  )
+)
+
+
+;;; -----------------------------
+;;; :: Window
+;;; -----------------------------
+(defwindow bar []
+  :monitor 1
+  :exclusive true
+  :geometry (geometry :x "0%" :y "0%" :width "100%" :height "2%" :anchor "top center")
+  :stacking "fg"
+  (bar)
+)
