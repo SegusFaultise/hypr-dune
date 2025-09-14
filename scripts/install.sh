@@ -74,10 +74,15 @@ echo "Using temporary directory: $TMP_DIR"
 git clone https://github.com/elkowar/eww "$TMP_DIR/eww"
 cd "$TMP_DIR/eww"
 
-cargo build --release --no-default-features --features=wayland
+cargo build --release --no-default-features --features="wayland"
 
 mkdir -p ~/.local/bin
 cp "target/release/eww" ~/.local/bin/
 
 rm -rf "$TMP_DIR"
 cd ~
+
+# ------------------------------------------------------------------
+# INSTALL swww
+# ------------------------------------------------------------------
+yay -S swww

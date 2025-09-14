@@ -1,66 +1,48 @@
 #!/bin/bash
 
-# A script to get the battery status and display it with an icon for eww.
-
-# Find the first battery device automatically.
-# This makes the script more portable across different laptops.
+# Find the correct battery device
 BATTERY_DEV=$(find /sys/class/power_supply/ -maxdepth 1 -name 'BAT*' | head -n 1)
 
-# Check if a battery device was found
+# Exit if no battery is found
 if [ -z "$BATTERY_DEV" ] || [ ! -d "$BATTERY_DEV" ]; then
-  echo "No Battery"
+  # Output JSON with an error message
+  echo '{"icon": "󰂭", "text": "N/A"}'
   exit 1
 fi
 
-# Get battery percentage
+# Get battery status and capacity
 CAPACITY=$(cat "$BATTERY_DEV/capacity")
-
-# Get battery status (e.g., Charging, Discharging, Full)
 STATUS=$(cat "$BATTERY_DEV/status")
 
-# Determine the icon based on status and capacity
-ICON=""
-
-if [ "$STATUS" = "Charging" ]; then
-  # Use a charging icon that changes with capacity
-  if [ "$CAPACITY" -ge 95 ]; then
-    ICON="󰂄"
-  elif [ "$CAPACITY" -ge 80 ]; then
-    ICON="󰂊"
-  elif [ "$CAPACITY" -ge 60 ]; then
-    ICON="󰂉"
-  elif [ "$CAPACITY" -ge 40 ]; then
-    ICON="󰂈"
-  elif [ "$CAPACITY" -ge 20 ]; then
-    ICON="󰂇"
-  else
-    ICON="󰂆"
-  fi
-elif [ "$STATUS" = "Full" ]; then
-  ICON="󰁹" # Full icon
-else       # Discharging or Unknown state
-  if [ "$CAPACITY" -ge 95 ]; then
-    ICON="󰁹"
-  elif [ "$CAPACITY" -ge 80 ]; then
-    ICON="󰂂"
-  elif [ "$CAPACITY" -ge 70 ]; then
-    ICON="󰂁"
-  elif [ "$CAPACITY" -ge 60 ]; then
-    ICON="󰂀"
-  elif [ "$CAPACITY" -ge 50 ]; then
-    ICON="󰁿"
-  elif [ "$CAPACITY" -ge 40 ]; then
-    ICON="󰁾"
-  elif [ "$CAPACITY" -ge 30 ]; then
-    ICON="󰁽"
-  elif [ "$CAPACITY" -ge 20 ]; then
-    ICON="󰁼"
-  elif [ "$CAPACITY" -ge 10 ]; then
-    ICON="󰁻"
-  else
-    ICON="󰂃" # Critical icon
-  fi
+# 1. Determine the base icon based on capacity
+BASE_ICON=""
+if [ "$CAPACITY" -ge 95 ]; then
+  BASE_ICON=""
+elif [ "$CAPACITY" -ge 80 ]; then
+  BASE_ICON=""
+elif [ "$CAPACITY" -ge 50 ]; then
+  BASE_ICON=""
+elif [ "$CAPACITY" -ge 30 ]; then
+  BASE_ICON=""
+elif [ "$CAPACITY" -ge 10 ]; then
+  BASE_ICON=""
+else
+  # Using a warning icon for very low battery
+  BASE_ICON=""
 fi
 
-# Print the final output
-echo "$ICON $CAPACITY%"
+# 2. Add a charging indicator or use the base icon
+ICON=""
+if [ "$STATUS" = "Charging" ]; then
+  # Prepend a lightning bolt to the capacity icon
+  ICON=" ${BASE_ICON}"
+elif [ "$STATUS" = "Full" ]; then
+  # Use a simple full icon when status is Full
+  ICON=""
+else # Discharging
+  # Use the capacity icon directly
+  ICON="${BASE_ICON}"
+fi
+
+# 3. Output the final result as a JSON object
+echo "$ICON ${CAPACITY}%"

@@ -1,8 +1,8 @@
 ;;; -----------------------------
 ;;; :: Variables
 ;;; -----------------------------
-(defpoll date :interval "1s" "date '+%d %b  %H:%M'")
-(defpoll network :interval "5s" "./scripts/network.sh")
+(defpoll date :interval "1s" "date '+%d %b  %H:%M'")
+(defpoll wifi :interval "5s" "./scripts/wifi.sh")
 (defpoll volume :interval "1s" "./scripts/volume.sh")
 (defpoll cpu :interval "2s" "./scripts/cpu.sh")
 (defpoll ram :interval "2s" "./scripts/ram.sh")
@@ -10,70 +10,106 @@
 (defpoll git :interval "10s" "./scripts/git.sh")
 (defpoll packages :interval "600s" "./scripts/packages.sh")
 (defpoll battery :interval "5s" "./scripts/battery.sh")
+(defpoll network_speed :interval "1s" "./scripts/network_speed.sh")
 
 
 ;;; -----------------------------
 ;;; :: Widgets (with icons)
 ;;; -----------------------------
 (defwidget packages []
-  (box :class "metric packages" :halign "end" "󰆧 ${packages}")
+  (box :class "metric packages" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "󰆧")
+    (label :class "metric-value" :text "${packages}")
+  )
 )
 (defwidget docker []
-  (box :class "metric docker" :halign "end" "   ${docker}")
+  (box :class "metric docker" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${docker}")
+  )
 )
 (defwidget git []
-  (box :class "metric git" :halign "end" "   ${git}")
+  (box :class "metric git" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${git}")
+  )
 )
 (defwidget ram []
-  (box :class "metric ram" :halign "end" "   ${ram}%")
+  (box :class "metric ram" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${ram}%")
+  )
 )
 (defwidget cpu []
-  (box :class "metric cpu" :halign "end" "  ${cpu}%")
+  (box :class "metric cpu" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${cpu}%")
+  )
 )
 (defwidget wifi []
-  (box :class "metric wifi" :halign "end" "   ${network}")
+  (box :class "metric wifi" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${wifi}")
+  )
+)
+(defwidget network_speed []
+  ;; Wrapped in a label for consistency, even without an icon
+  (box :class "metric network-speed"
+    (label :class "metric-value" :text "${network_speed}")
+  )
 )
 (defwidget vol []
-  (box :class "metric volume" :halign "end" "   ${volume}%")
+  (box :class "metric volume" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${volume}%")
+  )
 )
 (defwidget battery []
-  ;; This assumes your script outputs the percentage and charging status.
-  ;; The script itself can be modified to return a full string like " 85%"
-  (box :class "metric battery" :halign "end" "${battery}")
+  ;; Added a generic battery icon.
+  ;; You may need to adjust your script to only output the value (e.g., "85% ").
+  (box :class "metric battery" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${battery}")
+  )
 )
-
 (defwidget date_time []
-  (box :class "date" :halign "end" " ${date}")
+  (box :class "date" :orientation "h" :space-evenly false :spacing 5
+    (label :class "metric-icon" :text "")
+    (label :class "metric-value" :text "${date}")
+  )
 )
 
 
 ;;; -----------------------------
 ;;; :: Layout
 ;;; -----------------------------
-(defwidget center_bar []
-  (box :class "value" :halign "end" :orientation "h"
+(defwidget left_bar []
+  (box :class "left-bar" :halign "start" :orientation "h"
     (date_time)
   )
 )
+
 (defwidget right_bar []
   (box :class "right-bar" :halign "end" :orientation "h" :space-evenly false :spacing 10
     (cpu)
     (ram)
     (vol)
     (wifi)
+    (network_speed)
     (git)
     (docker)
     (packages)
     (battery)
   )
 )
-(defwidget bar []
-  (box :orientation "h"
-    (center_bar)
-    (right_bar)
-  )
-)
 
+(defwidget bar []
+    (box :class "bar" :orientation "h"
+        (left_bar)
+        (box :hexpand true) ;; This empty, expanding box pushes the other widgets to the edges
+        (right_bar)
+    )
+)
 
 ;;; -----------------------------
 ;;; :: Window
