@@ -1,0 +1,88 @@
+* {
+    bg:           #1A1B26;
+    fg:           #A9B1D6;
+    subtle-fg:    #565F89;
+    accent:       #7AA2F7;
+    green:        #9ECE6A;
+    yellow:       #E0AF68;
+    red:          #F7768E;
+    blue:         #7AA2F7;
+
+    font:             "FiraCode Nerd Font 14px";
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+window {
+    border:           2px;
+    border-color:     @red;
+    padding:          2px;
+    width:            650px;
+}
+
+mainbox {
+    background-color: rgba(26, 27, 38, 0.9);
+    padding:          10px 15px;
+    children:         [ "inputbar", "listview" ];
+    spacing:          15px;
+}
+
+element {
+    padding:          8px 12px;
+    cursor:           pointer;
+    orientation:      horizontal;
+}
+
+element-icon {
+    size:             20px;
+    padding:          0 15px 0 0;
+    cursor:           inherit;
+}
+
+element-text {
+    vertical-align:   0.5;
+    cursor:           inherit;
+    text-color:       inherit;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color:       @fg;
+}
+
+element selected.normal {
+    background-color: @accent;
+    text-color:       @bg;
+}
+
+element alternate.normal {
+    background-color: transparent;
+}
+
+inputbar {
+    background-color: #16161E;
+    padding:          10px;
+    border:           1px solid;
+    border-color:     @subtle-fg;
+    children:         [ "prompt", "entry" ];
+}
+
+prompt {
+    enabled:          true;
+    padding:          0 10px 0 0;
+    text-color:       @accent;
+}
+
+entry {
+    placeholder:      "Search...";
+    placeholder-color: @green;
+    cursor:           text;
+}
+
+listview {
+    lines:            8;
+    cycle:            true;
+    dynamic:          true;
+    layout:           vertical;
+    spacing:          5px;
+}

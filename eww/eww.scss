@@ -26,8 +26,6 @@ $blue: #7AA2F7;
   border-width: 2px;
   border-style: solid;
   border-image: linear-gradient(to right, $green, $yellow, $red, $blue) 1;
-
-  box-shadow: inset 0 0 0 2px darken($bg, 4%);
 }
 
 .left-bar, .right-bar {

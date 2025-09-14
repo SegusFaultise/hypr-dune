@@ -1,0 +1,11 @@
+/* ~/.config/hypr/rofi/config.rasi */
+
+configuration {
+    /* Your other settings like modi, show-icons, etc. */
+    modi: "drun,run";
+    show-icons: true;
+    icon-theme: "Papirus";
+}
+
+/* This is the important line to change */
+@theme "~/.config/hypr/rofi/themes/tokyo_night.rasi"
