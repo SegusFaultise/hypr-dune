@@ -15,11 +15,8 @@
 
 ***
 
-### Screenshots
-
-_Add a screenshot here to show off your setup!_
 <div align="center">
-    <img src="" alt="Hyprland Setup" width="800"/>
+    <img src="hypr-tokyo-night.png" alt="Hyprland Setup" width="2000"/>
 </div>
 
 ***
@@ -66,7 +63,7 @@ The provided `install.sh` script will automatically install these packages for y
 1.  **Clone the repository:**
 
     ```bash
-    git clone [https://github.com/SegusFaultise/nvim](https://github.com/SegusFaultise/nvim) ~/.config/hypr
+    git clone https://github.com/SegusFaultise/hypr-tokyo-night.git ~/.config/hypr
     ```
 
 2.  **Run the installation script:**
