@@ -11,6 +11,10 @@ set -e
 # ------------------------------------------------------------------
 PACKAGES=(
   git
+  gitui
+  github-desktop
+  lazydocker
+  htop
   jq
   socat
   ttf-jetbrains-mono-nerd
