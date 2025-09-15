@@ -6,7 +6,7 @@ x = 10
 y = 10
 
 [font]
-size = 15.0
+size = 13.0
 normal.family = "FiraCode Nerd Font"
 bold.family = "FiraCode Nerd Font"
 italic.family = "FiraCode Nerd Font"
